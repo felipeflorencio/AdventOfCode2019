@@ -108,8 +108,8 @@ class ProgramAlarmFirstPart:
 
 class ProgramAlarmSecondPart:
 
-    input = [1,0,0,3,1,1,2,3,1,3,4,3,1,5,0,3,2,9,1,19,1,19,5,23,1,9,23,27,2,27,6,31,1,5,31,35,2,9,35,39,2,6,39,43,2,43,13,47,2,13,47,51,1,10,51,55,1,9,55,59,1,6,59,63,2,63,9,67,1,67,6,71,1,71,13,75,1,6,75,79,1,9,79,83,2,9,83,87,1,87,6,91,1,91,13,95,2,6,95,99,1,10,99,103,2,103,9,107,1,6,107,111,1,10,111,115,2,6,115,119,1,5,119,123,1,123,13,127,1,127,5,131,1,6,131,135,2,135,13,139,1,139,2,143,1,143,10,0,99,2,0,14,0]
-
+    originalInput = [1,0,0,3,1,1,2,3,1,3,4,3,1,5,0,3,2,9,1,19,1,19,5,23,1,9,23,27,2,27,6,31,1,5,31,35,2,9,35,39,2,6,39,43,2,43,13,47,2,13,47,51,1,10,51,55,1,9,55,59,1,6,59,63,2,63,9,67,1,67,6,71,1,71,13,75,1,6,75,79,1,9,79,83,2,9,83,87,1,87,6,91,1,91,13,95,2,6,95,99,1,10,99,103,2,103,9,107,1,6,107,111,1,10,111,115,2,6,115,119,1,5,119,123,1,123,13,127,1,127,5,131,1,6,131,135,2,135,13,139,1,139,2,143,1,143,10,0,99,2,0,14,0]
+    
     opcodeSum = 1
     opcodeMultiply = 2
     opcodeHalts = 99
@@ -117,8 +117,7 @@ class ProgramAlarmSecondPart:
     outputToCompare = 19690720
 
     def __init__(self):
-        result = self.program_alarm()
-        print("Second part result: " + str(result))
+        self.start_check()
 
     def calculate_sum(self, position1, position2):
         return int(position1 + position2)
@@ -127,19 +126,26 @@ class ProgramAlarmSecondPart:
         return int(position1 * position2)
 
     def calculate_output(self, noun, verb):
-        return (100 * noun) + verb
+        return int((100 * noun) + verb)
 
-    def check_if_found_the_output(self, noun, verb):
-        if self.calculate_output(noun, verb) == self.outputToCompare:
-            return True
-        else:
-            return False
+    def start_check(self):
 
-    def program_alarm(self):
-        self.input[1] = 12
-        self.input[2] = 2
+        finalResult = ""
+        for n in range(0, 100):
+            for v in range(0, 100):
+                if self.program_alarm(self.originalInput.copy(), n, v) == self.outputToCompare:
+                    print("Noun is: " + str(n) + ", verb: " + str(v))
+                    finalResult = self.calculate_output(n, v)
 
-        adjusted_input = self.input
+        print("Answer: " + str(finalResult))
+        print("Finished processing no result")
+
+    def program_alarm(self, input, noun, verb):
+
+        input[1] = noun
+        input[2] = verb
+
+        adjusted_input = input
 
         jump_evaluation = 0
         for position, value in enumerate(adjusted_input):
@@ -170,10 +176,10 @@ class ProgramAlarmSecondPart:
 
                     except:
                         continue
-
+        
         return adjusted_input[0]
 
 
 if __name__ == "__main__":
-    ProgramAlarmFirstPart()
+    # ProgramAlarmFirstPart()
     ProgramAlarmSecondPart()
